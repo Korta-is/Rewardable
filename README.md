@@ -32,3 +32,10 @@ TX_DATA=            # Data transaksi jika diperlukan
 - `IDENTITY_ADDRESS`: Diperlukan jika menggunakan verifikasi identitas
 - `WITHDRAWAL_AMOUNT`: Jumlah penarikan dalam Wei
 - `TX_DATA`: Data transaksi dalam format hexadecimal (Dari Explorer)
+
+### Running Script
+
+`git clone https://github.com/Langga40/Rewardable.git`
+`npm install`
+`setup file .env`
+`node index.js`
