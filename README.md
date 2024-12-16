@@ -35,7 +35,19 @@ TX_DATA=            # Data transaksi jika diperlukan
 
 ### Running Script
 
-`git clone https://github.com/Langga40/Rewardable.git`
-`npm install`
-`setup file .env`
-`node index.js`
+```bash
+# Clone repository
+git clone https://github.com/Langga40/Rewardable.git
+
+# Install dependencies
+npm install
+
+# Setup environment variables
+setup file .env
+
+# Run the application
+node index.js
+```
+
+### Donate
+You can donate me if you want : `0x04caeb08D47Df2E039a3B3aDEDd49ABcb7E8FA0e`
