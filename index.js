@@ -11,10 +11,11 @@ import figlet from 'figlet';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
+import config from './config.js';
 dotenv.config();
 
 // Setup logging
-const LOG_DIR = 'logs';
+const LOG_DIR = config.bot.logDirectory;
 const LOG_FILE = path.join(LOG_DIR, `bot_${new Date().toISOString().split('T')[0]}.log`);
 
 if (!fs.existsSync(LOG_DIR)){
@@ -47,9 +48,14 @@ const showBanner = () => {
 const calculateResetTime = () => {
   const now = new Date();
   const target = new Date();
-  target.setHours(7, 0, 0, 0);
+  target.setHours(
+    config.resetTime.hour,
+    config.resetTime.minute,
+    config.resetTime.second,
+    0
+  );
   
-  if (now.getHours() >= 7) {
+  if (now > target) {
     target.setDate(target.getDate() + 1);
   }
   
@@ -69,11 +75,15 @@ const showTimeInfo = () => {
   process.stdout.clearLine();
   process.stdout.cursorTo(0);
   process.stdout.write(
-    chalk.hex('#D1E8E2')(`Current time: ${timeString} WIB | `) +
+    chalk.hex('#D1E8E2')(`Current time: ${timeString} ${config.display.timeZoneAbbr} | `) +
     chalk.hex('#A9D6E5')(`Next reset in: ${remainingTime}`)
   );
 
-  if (now.getHours() === 7 && now.getMinutes() === 0 && now.getSeconds() === 4) {
+  const isResetTime = now.getHours() === config.resetTime.hour && 
+                     now.getMinutes() === config.resetTime.minute && 
+                     now.getSeconds() === config.resetTime.second;
+
+  if (isResetTime) {
     console.log(chalk.hex('#19747E')('\nReset time reached! Restarting bot...'));
     logToFile('Reset time reached! Restarting bot...');
     separator();
@@ -83,7 +93,7 @@ const showTimeInfo = () => {
   setTimeout(showTimeInfo, 1000);
 };
 
-async function checkTransactionStatus(client, hash, maxAttempts = 20) {
+async function checkTransactionStatus(client, hash, maxAttempts = config.bot.maxRetries) {
   const provider = client.getProvider();
   let attempts = 0;
 
@@ -92,12 +102,12 @@ async function checkTransactionStatus(client, hash, maxAttempts = 20) {
       const receipt = await provider.getTransactionReceipt(hash);
       if (receipt) return receipt;
       
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, config.bot.retryInterval));
       attempts++;
     } catch (error) {
       logToFile(`Attempt ${attempts + 1} failed: ${error.message}`, true);
       attempts++;
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, config.bot.retryInterval));
     }
   }
   
