@@ -73,7 +73,7 @@ const showTimeInfo = () => {
     chalk.hex('#A9D6E5')(`Next reset in: ${remainingTime}`)
   );
 
-  if (now.getHours() === 7 && now.getMinutes() === 0 && now.getSeconds() === 3) {
+  if (now.getHours() === 7 && now.getMinutes() === 0 && now.getSeconds() === 4) {
     console.log(chalk.hex('#19747E')('\nReset time reached! Restarting bot...'));
     logToFile('Reset time reached! Restarting bot...');
     separator();
