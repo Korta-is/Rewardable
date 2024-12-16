@@ -3,12 +3,12 @@
 ## Cara Mendapatkan Client ID
 
 1. Buka [ThirdWeb Dashboard](https://thirdweb.com/dashboard)
-2. Login ke akun anda (Registrasi dahulu jika belum ada)
-3. Koneksikan wallet yang sama seperti di Rewardable ke akun ThirdWeb
+2. Login ke akun anda (Bisa pake email/wallet)
+3. Koneksikan wallet yang sama seperti di Rewardable ke akun ThirdWeb (For Email Regis)
 4. Buat Project baru dan klik Project yang sudah dibuat
 5. Klik tab "Settings" (pengaturan)
 6. Pilih "ClientID"
-7. Salin Client ID yang sudah ada
+7. Salin Client ID yang sudah ada di Project Setting
 8. Simpan Client ID kedalam file .env
 
 ## Setup File Environment (.env)
@@ -32,6 +32,32 @@ TX_DATA=            # Data transaksi jika diperlukan
 - `IDENTITY_ADDRESS`: Diperlukan jika menggunakan verifikasi identitas
 - `WITHDRAWAL_AMOUNT`: Jumlah penarikan dalam Wei
 - `TX_DATA`: Data transaksi dalam format hexadecimal (Dari Explorer)
+
+### Setup Config For Script Rerunning Time
+
+```
+export default {
+  // Reset time configuration (24-hour format)
+  resetTime: {
+    hour: 7,    // Hour to reset (0-23)
+    minute: 0,  // Minute to reset (0-59)
+    second: 2   // Second to reset (0-59)
+  },
+  
+  // Bot configuration
+  bot: {
+    maxRetries: 20,          // Maximum transaction retry attempts
+    retryInterval: 5000,     // Retry interval in milliseconds
+    logDirectory: 'logs',    // Directory for log files
+  },
+  
+  // Time display configuration
+  display: {
+    timeZone: 'Asia/Jakarta',  // Timezone for display
+    timeZoneAbbr: 'WIB'        // Timezone abbreviation
+  }
+};
+```
 
 ### Running Script
 
